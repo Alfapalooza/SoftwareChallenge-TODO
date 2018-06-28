@@ -2,9 +2,7 @@ package org.byrde.models.responses.exceptions
 
 import org.byrde.models.responses.DefaultJsonServiceResponse
 
-import scala.util.control.NoStackTrace
-
-case class JsonServiceResponseException(msg: String, code: Int, status: Int) extends Throwable(msg) with DefaultJsonServiceResponse with NoStackTrace {
+class JsonServiceResponseException(val msg: String, val code: Int, val status: Int) extends Throwable(msg) with DefaultJsonServiceResponse {
   override def apply(message: String): JsonServiceResponseException =
     new JsonServiceResponseException(message, code, status)
 

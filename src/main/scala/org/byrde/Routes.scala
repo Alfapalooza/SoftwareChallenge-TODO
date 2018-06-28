@@ -8,7 +8,6 @@ import org.byrde.models.responses.CommonJsonServiceResponseDictionary.E0200
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.MarshallingEntityWithRequestDirective
-import akka.http.scaladsl.server.directives.PathDirectives.path
 import akka.util.Timeout
 
 import scala.concurrent.ExecutionContext
@@ -34,7 +33,7 @@ trait Routes extends RequestResponseHandlingDirective with MarshallingEntityWith
   lazy val routes: Route =
     requestResponseHandler {
       pathBindings.map {
-        case (k, v) => path(k)(v)
+        case (k, v) => pathPrefix(k)(v)
       } reduce (_ ~ _)
     }
 }

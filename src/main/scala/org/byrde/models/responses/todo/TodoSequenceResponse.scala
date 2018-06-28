@@ -10,7 +10,7 @@ case class TodoSequenceResponse(response: Seq[Todo]) extends JsonServiceResponse
     (o: Seq[Todo]) =>
       Json.obj(
         "todos" -> response.map(_.toJson)
-      )
+      ) ++ Todo.calculatePriorityAndMissingPriorityOccurrences(response)
 
   override def msg: String =
     "Todos"

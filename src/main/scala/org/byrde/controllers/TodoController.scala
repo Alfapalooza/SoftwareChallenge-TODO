@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext
 
 class TodoController(todoStorage: TodoStorage)(ec1: ExecutionContext)(implicit ec2: ExecutionContext) extends ApiSupport with MarshallingEntityWithRequestDirective {
   lazy val routes: Route =
-    path(IntNumber) { todoId =>
+    path(LongNumber) { todoId =>
       fetch(todoId) ~ edit(todoId) ~ remove(todoId)
     } ~ fetchAll ~ create
 

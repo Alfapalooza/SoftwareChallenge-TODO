@@ -42,8 +42,8 @@ trait RequestResponseHandlingDirective extends PlayJsonSupport with RejectionHan
           throwable match {
             case serviceResponseException: JsonServiceResponseException =>
               serviceResponseException
-            case ex: Exception =>
-              JsonServiceResponseException(ex)
+            case _ =>
+              JsonServiceResponseException(throwable)
           }
 
         errorLogger.error(serviceResponseException, req)

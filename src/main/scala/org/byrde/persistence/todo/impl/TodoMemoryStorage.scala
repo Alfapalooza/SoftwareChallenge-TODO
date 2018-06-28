@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicLong
 
 import org.byrde.models.Todo
 import org.byrde.models.Todo.TodoId
-import org.byrde.models.responses.exceptions.TodoNotFound
+import org.byrde.models.responses.exceptions.TodoNotFoundException
 import org.byrde.persistence.todo.TodoStorage
 
 import scala.concurrent._
@@ -39,7 +39,7 @@ object TodoMemoryStorage extends TodoStorage {
     Future {
       val todo =
         todos
-          .getOrElse(todoId, throw TodoNotFound(todoId))
+          .getOrElse(todoId, throw TodoNotFoundException(todoId))
 
       todos
         .remove(todoId)
@@ -50,7 +50,7 @@ object TodoMemoryStorage extends TodoStorage {
   override def fetch(todoId: TodoId)(implicit ec: ExecutionContext) =
     Future {
       todos
-        .getOrElse(todoId, throw TodoNotFound(todoId))
+        .getOrElse(todoId, throw TodoNotFoundException(todoId))
     }
 
   override def fetchAll(implicit ec: ExecutionContext): Future[Seq[Todo]] =
