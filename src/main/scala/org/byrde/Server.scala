@@ -36,11 +36,11 @@ object Server extends App with Routes {
   override lazy val corsConfiguration =
     configuration.corsConfiguration
 
-  override val storage: ExecutionContext =
-    ThreadPools.Storage
-
-  override implicit val main: ExecutionContext =
+  override val mainPool: ExecutionContext =
     ThreadPools.Global
+
+  override val storagePool: ExecutionContext =
+    ThreadPools.Storage
 
   implicit lazy val materializer: ActorMaterializer =
     modulesProvider.akka.materializer

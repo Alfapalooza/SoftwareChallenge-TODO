@@ -1,16 +1,16 @@
 package org.byrde.models.responses.todo
 
 import org.byrde.models.responses.JsonServiceResponse
-import org.byrde.models.todo.Todo
+import org.byrde.models.todo.Todos
 
 import play.api.libs.json.Writes
 
-case class TodoResponse(response: Todo) extends JsonServiceResponse[Todo] {
-  override implicit val writes: Writes[Todo] =
+case class TodosResponse(response: Todos) extends JsonServiceResponse[Todos] {
+  override implicit val writes: Writes[Todos] =
     _.toJson
 
   override val msg: String =
-    "Todo"
+    "Todos"
 
   override val status: Int =
     200

@@ -1,10 +1,10 @@
-package org.byrde.models
+package org.byrde.models.todo
 
-import org.byrde.models.Todo.TodoId
+import org.byrde.models.todo.Todo.TodoId
 
-import play.api.libs.json._
-import play.api.libs.json.Reads._
 import play.api.libs.functional.syntax._
+import play.api.libs.json.Reads._
+import play.api.libs.json._
 
 case class Todo(id: TodoId, thing: String, completed: Boolean, priority: Int) {
   lazy val toJson: JsObject =
@@ -20,7 +20,7 @@ case class Todo(id: TodoId, thing: String, completed: Boolean, priority: Int) {
 }
 
 object Todo {
-  private val MaxPriority: Int =
+  val MaxPriority: Int =
     10
 
   type TodoId = Long
@@ -38,32 +38,4 @@ object Todo {
 
   def create(thing: String, completed: Boolean, priority: Int): Todo =
     Todo(0, thing, completed, priority)
-
-  def calculatePriorityAndMissingPriorityOccurrences(todos: Seq[Todo]): JsObject = {
-    val priorityOccurrences =
-      todos
-        .groupBy(_.priority)
-        .mapValues(_.size)
-
-    val missingPriorityOccurrences =
-      (0 to MaxPriority)
-        .flatMap { i =>
-          priorityOccurrences
-            .get(i)
-            .map(_ => None)
-            .getOrElse(Some(i))
-        }
-
-    Json.obj(
-      "missing-priorities" -> missingPriorityOccurrences,
-      "priority-occurrences" ->
-        priorityOccurrences.map {
-          case (priority, occurences) =>
-            Json.obj(
-              "priority" -> priority,
-              "occurrences" -> occurences
-            )
-        }
-    )
-  }
 }

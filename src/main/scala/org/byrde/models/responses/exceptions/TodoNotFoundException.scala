@@ -1,6 +1,6 @@
 package org.byrde.models.responses.exceptions
 
-import org.byrde.models.Todo.TodoId
+import org.byrde.models.todo.Todo.TodoId
 
 import scala.util.control.NoStackTrace
 

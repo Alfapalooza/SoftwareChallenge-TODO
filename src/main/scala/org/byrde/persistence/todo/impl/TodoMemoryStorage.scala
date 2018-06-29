@@ -3,9 +3,9 @@ package org.byrde.persistence.todo.impl
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 
-import org.byrde.models.Todo
-import org.byrde.models.Todo.TodoId
 import org.byrde.models.responses.exceptions.TodoNotFoundException
+import org.byrde.models.todo.Todo.TodoId
+import org.byrde.models.todo.{ Todo, Todos }
 import org.byrde.persistence.todo.TodoStorage
 
 import scala.concurrent._
@@ -28,7 +28,7 @@ object TodoMemoryStorage extends TodoStorage {
         .getOrElse(todoWithNewId)
     }
 
-  override def update(todoId: TodoId, todo: Todo)(implicit ec: ExecutionContext) =
+  override def edit(todoId: TodoId, todo: Todo)(implicit ec: ExecutionContext) =
     Future {
       todos
         .putIfAbsent(todoId, todo)
@@ -53,10 +53,8 @@ object TodoMemoryStorage extends TodoStorage {
         .getOrElse(todoId, throw TodoNotFoundException(todoId))
     }
 
-  override def fetchAll(implicit ec: ExecutionContext): Future[Seq[Todo]] =
+  override def fetchAll(implicit ec: ExecutionContext): Future[Todos] =
     Future {
-      todos
-        .values
-        .toSeq
+      Todos(todos.values.toSeq)
     }
 }

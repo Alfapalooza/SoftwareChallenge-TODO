@@ -6,6 +6,7 @@ import com.typesafe.config.{ Config, ConfigFactory }
 import akka.util.Timeout
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 class Configuration @Inject() () {
   lazy val underlyingConfig: Config =

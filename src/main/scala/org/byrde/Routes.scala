@@ -13,11 +13,11 @@ import akka.util.Timeout
 import scala.concurrent.ExecutionContext
 
 trait Routes extends RequestResponseHandlingDirective with MarshallingEntityWithRequestDirective {
-  implicit def main: ExecutionContext
-
   implicit def timeout: Timeout
 
-  def storage: ExecutionContext
+  def mainPool: ExecutionContext
+
+  def storagePool: ExecutionContext
 
   def modulesProvider: ModulesProvider
 
@@ -27,7 +27,7 @@ trait Routes extends RequestResponseHandlingDirective with MarshallingEntityWith
   lazy val pathBindings =
     Map(
       "ping" -> defaultRoutes,
-      "todo" -> new TodoController(modulesProvider.todoStorage)(storage).routes
+      "todo" -> new TodoController(modulesProvider.todoStorage)(storagePool, mainPool).routes
     )
 
   lazy val routes: Route =
